@@ -40,12 +40,10 @@ func GetCurrentCluster() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(currentContext)
 	cluster, err := GetClusterFromContext(currentContext)
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(cluster)
 	query := fmt.Sprintf("{.clusters[?(@.name=='%s')]}", cluster)
 	return sh.Output(constants.KubectlCmd, "config", "view", constants.OutJsonPath(query), "--allow-missing-template-keys=true", "--raw")
 }
@@ -104,7 +102,6 @@ func Kubeconfig(user, namespace string) (string, error) {
 		return "", fmt.Errorf("could not get sa token: %v", err)
 	}
 	clusterObj := &clientcmdapi.NamedCluster{}
-	fmt.Println(cluster)
 	if err = json.Unmarshal([]byte(cluster), clusterObj); err != nil {
 		return "", err
 	}

@@ -35,12 +35,12 @@ func (User) Delete(username, namespace string) error {
 }
 
 // CanThey runs can-i as the users kubeconfig
-func (User) CanThey(username, namespace, resource, verb string) error {
+func (User) CanThey(username, namespace, verb, resource string) error {
 	kubeconfig, err := k8sUser.Kubeconfig(username, namespace)
 	if err != nil {
 		return err
 	}
-	return k8sUser.AuthCanI(kubeconfig, verb, resource)
+	return k8sUser.AuthCanI(kubeconfig, resource, verb)
 }
 
 // GetRoles Gets a list of roles where the user is a member
