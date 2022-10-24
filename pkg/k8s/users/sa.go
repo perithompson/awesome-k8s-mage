@@ -56,6 +56,9 @@ func CreateAccountTokenSecret(name, namespace string) (string, error) {
 	}
 	defer os.Remove(tempFile.Name())
 	y, err := yaml.Marshal(secret)
+	if err != nil {
+		return "", err
+	}
 	if err = os.WriteFile(tempFile.Name(), y, fs.ModeAppend); err != nil {
 		return "", err
 	}
