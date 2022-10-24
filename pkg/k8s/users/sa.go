@@ -36,7 +36,7 @@ func CreateAccountTokenSecret(name, namespace string) (string, error) {
 			APIVersion: "v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			GenerateName: "peri-token-",
+			GenerateName: fmt.Sprintf("%s-token-", name),
 			Namespace:    namespace,
 			Annotations: map[string]string{
 				"kubernetes.io/service-account.name": name,
