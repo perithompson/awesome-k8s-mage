@@ -8,7 +8,7 @@ import (
 )
 
 func AuthCanI(kubeconfig, verb, resource string) error {
-	f, err := os.CreateTemp(os.TempDir(), "k8smage-")
+	f, err := os.CreateTemp(os.TempDir(), constants.TempPrefix)
 	if err != nil {
 		return err
 	}
