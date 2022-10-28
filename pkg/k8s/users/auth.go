@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/magefile/mage/sh"
@@ -8,11 +9,19 @@ import (
 )
 
 func AuthCanI(kubeconfig, verb, resource string) error {
-	f, err := os.CreateTemp(os.TempDir(), "k8smage-")
+	f, err := os.CreateTemp(os.TempDir(), constants.TempPrefix)
 	if err != nil {
 		return err
 	}
 	defer os.Remove(f.Name())
 	f.WriteString(kubeconfig)
-	return sh.RunV(constants.KubectlCmd, "auth", "can-i", constants.KubeconfigArg(f.Name()), resource, verb)
+	out, err := sh.Output(constants.KubectlCmd, "auth", "can-i", constants.KubeconfigArg(f.Name()), resource, verb)
+	fmt.Println(out)
+	if err != nil {
+		if out == "no" {
+			return nil
+		}
+		return err
+	}
+	return nil
 }
